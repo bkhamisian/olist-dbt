@@ -1,0 +1,13 @@
+olist_dbt:
+  outputs:
+    dev:
+      type: duckdb
+      path: dev.duckdb # "data/olist.duckdb"  # The location of your DuckDB database file
+      threads: 1
+
+    prod:
+      type: duckdb
+      path: prod.duckdb # "data/olist.duckdb"  # The location of your DuckDB database file
+      threads: 4
+
+  target: dev
