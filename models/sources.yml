@@ -6,3 +6,19 @@ sources:
     schema: olist_data  # Schema in your DuckDB
     tables:
       - name: customers  # The customers table you want to reference
+
+      - name: geolocation
+
+      - name: order_items
+
+      - name: order_payments
+
+      - name: order_reviews
+
+      - name: orders
+
+      - name: products
+
+      - name: sellers
+
+      - name: product_category_name_translation
