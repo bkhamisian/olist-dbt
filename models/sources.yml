@@ -1,0 +1,8 @@
+version: 2
+
+sources:
+  - name: olist_data
+    database: olist
+    schema: olist_data  # Schema in your DuckDB
+    tables:
+      - name: customers  # The customers table you want to reference

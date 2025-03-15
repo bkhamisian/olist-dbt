@@ -1,13 +1,9 @@
-olist_dbt:
+olist_dbt: #my_project
   outputs:
     dev:
       type: duckdb
-      path: dev.duckdb # "data/olist.duckdb"  # The location of your DuckDB database file
       threads: 1
-
-    prod:
-      type: duckdb
-      path: prod.duckdb # "data/olist.duckdb"  # The location of your DuckDB database file
-      threads: 4
+      path: "olist.duckdb"
+      schema: dev
 
   target: dev
