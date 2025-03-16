@@ -57,7 +57,7 @@ sources:
             description: "Identifier for the seller."
 
           - name: shipping_limit_date
-            description: "Deadline for the seller to ship the product."
+            description: "Deadline (timestamp) for the seller to ship the product."
 
           - name: price
             description: "Price of the product item."
@@ -67,12 +67,72 @@ sources:
 
       - name: order_payments
         description: "This dataset includes data about the orders payment options."
+        columns:
+          - name: order_id
+            description: "Unique identifier for the order."
+
+          - name: payment_sequential
+            description: "Sequence number of the payment within an order. A customer may pay an order with more than one payment method."
+
+          - name: payment_type
+            description: "Payment method (example: credit_card, voucher, etc)."
+
+          - name: payment_installments
+            description: "Number of installments chosen for the payment."
+
+          - name: payment_value
+            description: "Amount paid for the order."
 
       - name: order_reviews
         description: "This dataset includes data about the reviews made by the customers."
+        columns:
+          - name: review_id
+            description: "Unique identifier for each review."
+
+          - name: order_id
+            description: "Identifier for the associated order."
+
+          - name: review_score
+            description: "Rating given by the customer (1 to 5)"
+
+          - name: review_comment_title
+            description: "Title of the review comment."
+
+          - name: review_comment_message
+            description: "Detailed review message."
+
+          - name: review_creation_date
+            description: "Timestamp in which the satisfaction survey was sent to the customer."
+
+          - name: review_answer_timestamp
+            description: "Timestamp when the satisfaction survey was responded."
 
       - name: orders
         description: "This is the core dataset. From each order you might find all other information."
+        columns:
+          - name: order_id
+            description: "Unique identifier for each order."
+
+          - name: customer_id
+            description: "Identifier for the customer who placed the order. Each order has a unique customer_id."
+
+          - name: order_status
+            description: "Status of the order (example: delivered, canceled, etc)."
+
+          - name: order_purchase_timestamp
+            description: "Timestamp when the order was purchased."
+
+          - name: order_approved_at
+            description: "Timestamp when the order/payment was approved."
+
+          - name: order_delivered_carrier_date
+            description: "Timestamp when the order was handed to the carrier / logistic partner."
+
+          - name: order_delivered_customer_date
+            description: "Timestamp when the order was delivered to the customer."
+
+          - name: order_estimated_delivery_date
+            description: "Estimated delivery date of the order at the purchase moment."
 
       - name: products
         description: "This dataset includes data about the products sold by Olist."
