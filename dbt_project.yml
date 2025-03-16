@@ -36,3 +36,7 @@ models:
     example:
       schema: reporting
       materialized: view # Ensure this matches your actual schema
+
+    staging:
+      schema: staging
+      materialized: view

@@ -3,22 +3,82 @@ version: 2
 sources:
   - name: olist_data
     database: olist
-    schema: olist_data  # Schema in your DuckDB
+    schema: olist_data
     tables:
-      - name: customers  # The customers table you want to reference
+      - name: customers  # The customers table I will reference
+        description: "This dataset contains customer and location information. Each order is assigned a unique customer_id, so the same customer gets different IDs for each order. The customer_unique_id helps identify customers who made repeat purchases, preventing the appearance of separate customers for each order."
+        columns:
+          - name: customer_id
+            description: "Key to the orders dataset. Each order has a unique customer_id."
+
+          - name: customer_unique_id
+            description: "Unique identifier of a customer. Allowing the tracking of repeated purchases."
+
+          - name: customer_zip_code_prefix
+            description: "The first five digits of the customers zip code."
+
+          - name: customer_city
+            description: "The city where the customer is located."
+
+          - name: customer_state
+            description: "The abbreviated state where the customer is located."
 
       - name: geolocation
+        description: "This dataset has information on Brazilian zip codes and its lat/lng coordinates."
+        columns:
+          - name: geolocation_zip_code_prefix
+            description: "The first five digits of the zip code for the location."
+
+          - name: geolocation_lat
+            description: "Latitude coordinate of the location."
+
+          - name: geolocation_lng
+            description: "Longitude coordinate of the location."
+
+          - name: geolocation_city
+            description: "City name of the location."
+
+          - name: geolocation_state
+            description: "State abbreviation of the location."
 
       - name: order_items
+        description: "This dataset includes data about the items purchased within each order."
+        columns:
+          - name: order_id
+            description: "Unique identifier for each order."
+
+          - name: order_item_id
+            description: "Sequential number identifying for items within an order because orders can have multiple items."
+
+          - name: product_id
+            description: "Identifier for the purchased product."
+
+          - name: seller_id
+            description: "Identifier for the seller."
+
+          - name: shipping_limit_date
+            description: "Deadline for the seller to ship the product."
+
+          - name: price
+            description: "Price of the product item."
+
+          - name: freight_value
+            description: "Shipping cost associated with the product item. If an order contains multiple items, the freight cost is divided among the items."
 
       - name: order_payments
+        description: "This dataset includes data about the orders payment options."
 
       - name: order_reviews
+        description: "This dataset includes data about the reviews made by the customers."
 
       - name: orders
+        description: "This is the core dataset. From each order you might find all other information."
 
       - name: products
+        description: "This dataset includes data about the products sold by Olist."
 
       - name: sellers
+        description: "This dataset includes data about the sellers that fulfilled orders made at Olist."
 
       - name: product_category_name_translation
+        description: "This dataset includes the english translation of the product_category_name."
