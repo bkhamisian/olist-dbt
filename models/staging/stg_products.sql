@@ -17,7 +17,7 @@ cleaned_products as (
         CAST(op.product_width_cm as float)             as product_width_cm
     from olist_products as op
     left join {{ ref('product_category_name_translation') }} as pcnt
-    on lower(op.product_category_name) = lower(pcnt.product_category_name)
+        on lower(op.product_category_name) = lower(pcnt.product_category_name)
 )
 
 select *
