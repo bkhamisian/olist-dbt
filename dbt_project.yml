@@ -48,6 +48,9 @@ models:
       +schema: marts
       +materialized: view
 
+    metricflow_time_spine:
+      materialized: table
+
 seeds:
   olist_dbt:
     +schema: seeds

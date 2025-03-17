@@ -17,6 +17,7 @@ select
     o.order_delivered_carrier_timestamp,
     o.order_delivered_customer_timestamp,
     o.order_estimated_delivery_date,
+    c.customer_unique_id,
     c.customer_city,
     c.customer_state
 from orders o
