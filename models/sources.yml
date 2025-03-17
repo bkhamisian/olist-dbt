@@ -10,7 +10,7 @@ sources:
         description: "This dataset contains customer and location information. Each order is assigned a unique customer_id, so the same customer gets different IDs for each order. The customer_unique_id helps identify customers who made repeat purchases, preventing the appearance of separate customers for each order."
         columns:
           - name: customer_id
-            description: "Key to the orders dataset. Each order has a unique customer_id."
+            description: "Primary key to the orders dataset. Each order has a unique customer_id."
 #            tests:
 #                   - unique
 #                    - not_null
@@ -91,7 +91,7 @@ sources:
         description: "This is the core dataset. From each order you might find all other information."
         columns:
           - name: order_id
-            description: "Unique identifier for each order."
+            description: "Primary Key. Unique identifier for each order."
           - name: customer_id
             description: "Identifier for the customer who placed the order. Each order has a unique customer_id."
           - name: order_status
@@ -111,7 +111,7 @@ sources:
         description: "This dataset includes data about the products sold by Olist."
         columns:
           - name: product_id
-            description: "Unique identifier for each product."
+            description: "Primary Key. Unique identifier for each product."
           - name: product_category_name
             description: "Category of the product in Portuguese."
           - name: product_name_lenght
@@ -133,7 +133,7 @@ sources:
         description: "This dataset has information about the sellers that fulfilled orders made at Olist."
         columns:
           - name: seller_id
-            description: "Unique identifier of the seller."
+            description: "Primary Key. Unique identifier of the seller."
           - name: seller_zip_code_prefix
             description: "The first five digits of the zip code for the seller."
           - name: seller_city
