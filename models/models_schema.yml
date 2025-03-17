@@ -1,0 +1,127 @@
+version: 2
+
+models:
+  - name: stg_customers
+    description: "Staging table for customer data with proper data types."
+    columns:
+      - name: customer_id
+        description: "Key to the orders dataset. Each order has a unique customer_id."
+#        tests:
+#               - unique
+#               - not_null
+      - name: customer_unique_id
+        description: "Unique identifier of a customer. Allowing the tracking of repeated purchases."
+      - name: customer_zip_code_prefix
+        description: "The first five digits of the customers zip code. Keeping it as a varchar because storing it as an integer would remove the leading zeros."
+      - name: customer_city
+        description: "The city where the customer is located."
+      - name: customer_state
+        description: "The abbreviated state where the customer is located."
+
+  - name: stg_geolocation
+    description: "Staging table for geolocation data with proper data types."
+    columns:
+      - name: geolocation_zip_code_prefix
+        description: "The first five digits of the zip code for the location. Keeping it as a varchar because storing it as an integer would remove the leading zeros."
+      - name: geolocation_lat
+        description: "Latitude coordinate of the location. Range is correct, from -90 to +90. In our case float is a good option; A small rounding will likely not affect the analysis in case used."
+      - name: geolocation_lng
+        description: "Longitude coordinate of the location. Range is correct, from -180 to +180. In our case float is a good option; A small rounding will likely not affect the analysis in case used."
+      - name: geolocation_city
+        description: "City name of the location."
+      - name: geolocation_state
+        description: "State abbreviation of the location."
+
+  - name: stg_order_items
+    description: "Staging table for order item data with proper data types."
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order."
+      - name: order_item_id
+        description: "Sequential number identifying items within an order because orders can have multiple items."
+      - name: product_id
+        description: "Identifier for the purchased product."
+      - name: seller_id
+        description: "Identifier for the seller."
+      - name: shipping_limit_timestamp
+        description: "Deadline (timestamp) for the seller to ship the product. Changed alias name from date to a timestamp for better readability."
+      - name: price
+        description: "Price of the product item."
+      - name: freight_value
+        description: "Shipping cost associated with the product item. If an order contains multiple items, the freight cost is divided among the items."
+
+  - name: stg_order_payments
+    description: "Staging table for order payment data with proper data types."
+    columns:
+      - name: order_id
+        description: "Unique identifier for the order."
+      - name: payment_sequential
+        description: "Sequence number of the payment within an order. A customer may pay an order with more than one payment method."
+      - name: payment_type
+        description: "Payment method (example: credit_card, voucher, etc)."
+      - name: payment_installments
+        description: "Number of installments chosen for the payment."
+      - name: payment_value
+        description: "Amount paid for the order."
+
+  - name: stg_order_reviews
+    description: "Staging table for order review data with proper data types."
+    columns:
+      - name: review_id
+        description: "Unique identifier for each review."
+      - name: order_id
+        description: "Identifier for the associated order."
+      - name: review_score
+        description: "Rating given by the customer (1 to 5)."
+      - name: review_comment_title
+        description: "Title of the review comment."
+      - name: review_comment_message
+        description: "Detailed review message."
+      - name: review_creation_timestamp
+        description: "Timestamp in which the satisfaction survey was sent to the customer. Changed alias name from date to a timestamp for better readability."
+      - name: review_answer_timestamp
+        description: "Timestamp when the satisfaction survey was responded."
+
+  - name: stg_orders
+    description: "Staging table for order data with proper data types."
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order."
+      - name: customer_id
+        description: "Identifier for the customer who placed the order. Each order has a unique customer_id."
+      - name: order_status
+        description: "Status of the order (example: delivered, canceled, etc)."
+      - name: order_purchase_timestamp
+        description: "Timestamp when the order was purchased."
+      - name: order_approved_timestamp
+        description: "Timestamp when the order/payment was approved. Changed alias name to a timestamp for better readability."
+      - name: order_delivered_carrier_timestamp
+        description: "Timestamp when the order was handed to the carrier / logistic partner. Changed alias name from date to a timestamp for better readability."
+      - name: order_delivered_customer_timestamp
+        description: "Timestamp when the order was delivered to the customer. Changed alias name from date to a timestamp for better readability."
+      - name: order_estimated_delivery_date
+        description: "Estimated delivery date of the order at the purchase moment."
+
+  - name: stg_products
+    description: "Staging table for product data with proper data types. Includes an additional field, the English translations for product category names."
+    columns:
+      - name: product_id
+        description: "Unique identifier for each product."
+      - name: product_category_name
+        description: "Category of the product in Portuguese."
+      - name: product_category_name_english
+        description: "Product category name in English. Referenced from the product_category_name_translation seed model."
+      - name: product_name_length
+        description: "Length of the product name. Corrected a misspelling in 'length'."
+      - name: product_description_length
+        description: "Length of the product description. Corrected a misspelling in 'length'."
+      - name: product_photos_qty
+        description: "Number of photos for the product."
+      - name: product_weight_g
+        description: "Weight of the product in grams."
+      - name: product_length_cm
+        description: "Length of the product in centimeters."
+      - name: product_height_cm
+        description: "Height of the product in centimeters."
+      - name: product_width_cm
+        description: "Width of the product in centimeters."

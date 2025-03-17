@@ -4,22 +4,22 @@ sources:
   - name: olist_data
     database: olist
     schema: olist_data
+    description: "An open-source dataset on Brazilian E-Commerce (Olist) from Kaggle. These sources defines the raw data utilized in our dbt project."
     tables:
-      - name: customers  # The customers table I will reference
+      - name: customers
         description: "This dataset contains customer and location information. Each order is assigned a unique customer_id, so the same customer gets different IDs for each order. The customer_unique_id helps identify customers who made repeat purchases, preventing the appearance of separate customers for each order."
         columns:
           - name: customer_id
             description: "Key to the orders dataset. Each order has a unique customer_id."
-
+#            tests:
+#                   - unique
+#                    - not_null
           - name: customer_unique_id
             description: "Unique identifier of a customer. Allowing the tracking of repeated purchases."
-
           - name: customer_zip_code_prefix
             description: "The first five digits of the customers zip code."
-
           - name: customer_city
             description: "The city where the customer is located."
-
           - name: customer_state
             description: "The abbreviated state where the customer is located."
 
@@ -28,16 +28,12 @@ sources:
         columns:
           - name: geolocation_zip_code_prefix
             description: "The first five digits of the zip code for the location."
-
           - name: geolocation_lat
             description: "Latitude coordinate of the location."
-
           - name: geolocation_lng
             description: "Longitude coordinate of the location."
-
           - name: geolocation_city
             description: "City name of the location."
-
           - name: geolocation_state
             description: "State abbreviation of the location."
 
@@ -46,22 +42,16 @@ sources:
         columns:
           - name: order_id
             description: "Unique identifier for each order."
-
           - name: order_item_id
-            description: "Sequential number identifying for items within an order because orders can have multiple items."
-
+            description: "Sequential number identifying items within an order because orders can have multiple items."
           - name: product_id
             description: "Identifier for the purchased product."
-
           - name: seller_id
             description: "Identifier for the seller."
-
           - name: shipping_limit_date
             description: "Deadline (timestamp) for the seller to ship the product."
-
           - name: price
             description: "Price of the product item."
-
           - name: freight_value
             description: "Shipping cost associated with the product item. If an order contains multiple items, the freight cost is divided among the items."
 
@@ -70,16 +60,12 @@ sources:
         columns:
           - name: order_id
             description: "Unique identifier for the order."
-
           - name: payment_sequential
             description: "Sequence number of the payment within an order. A customer may pay an order with more than one payment method."
-
           - name: payment_type
             description: "Payment method (example: credit_card, voucher, etc)."
-
           - name: payment_installments
             description: "Number of installments chosen for the payment."
-
           - name: payment_value
             description: "Amount paid for the order."
 
@@ -88,22 +74,16 @@ sources:
         columns:
           - name: review_id
             description: "Unique identifier for each review."
-
           - name: order_id
             description: "Identifier for the associated order."
-
           - name: review_score
-            description: "Rating given by the customer (1 to 5)"
-
+            description: "Rating given by the customer (1 to 5)."
           - name: review_comment_title
             description: "Title of the review comment."
-
           - name: review_comment_message
             description: "Detailed review message."
-
           - name: review_creation_date
             description: "Timestamp in which the satisfaction survey was sent to the customer."
-
           - name: review_answer_timestamp
             description: "Timestamp when the satisfaction survey was responded."
 
@@ -112,33 +92,51 @@ sources:
         columns:
           - name: order_id
             description: "Unique identifier for each order."
-
           - name: customer_id
             description: "Identifier for the customer who placed the order. Each order has a unique customer_id."
-
           - name: order_status
             description: "Status of the order (example: delivered, canceled, etc)."
-
           - name: order_purchase_timestamp
             description: "Timestamp when the order was purchased."
-
           - name: order_approved_at
             description: "Timestamp when the order/payment was approved."
-
           - name: order_delivered_carrier_date
             description: "Timestamp when the order was handed to the carrier / logistic partner."
-
           - name: order_delivered_customer_date
             description: "Timestamp when the order was delivered to the customer."
-
           - name: order_estimated_delivery_date
             description: "Estimated delivery date of the order at the purchase moment."
 
       - name: products
         description: "This dataset includes data about the products sold by Olist."
+        columns:
+          - name: product_id
+            description: "Unique identifier for each product."
+          - name: product_category_name
+            description: "Category of the product in Portuguese."
+          - name: product_name_lenght
+            description: "Length of the product name."
+          - name: product_description_lenght
+            description: "Length of the product description."
+          - name: product_photos_qty
+            description: "Number of photos for the product."
+          - name: product_weight_g
+            description: "Weight of the product in grams."
+          - name: product_length_cm
+            description: "Length of the product in centimeters."
+          - name: product_height_cm
+            description: "Height of the product in centimeters."
+          - name: product_width_cm
+            description: "Width of the product in centimeters."
 
       - name: sellers
-        description: "This dataset includes data about the sellers that fulfilled orders made at Olist."
-
-      - name: product_category_name_translation
-        description: "This dataset includes the english translation of the product_category_name."
+        description: "This dataset has information about the sellers that fulfilled orders made at Olist."
+        columns:
+          - name: seller_id
+            description: "Unique identifier of the seller."
+          - name: seller_zip_code_prefix
+            description: "The first five digits of the zip code for the seller."
+          - name: seller_city
+            description: "City name of the seller."
+          - name: seller_state
+            description: "State abbreviation of the seller."

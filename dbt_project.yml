@@ -33,10 +33,18 @@ clean-targets:         # directories to be removed by `dbt clean`
 # files using the `{{ config(...) }}` macro.
 models:
   olist_dbt:
-    example:
+    example: # Example models from dbt
       schema: reporting
-      materialized: view # Ensure this matches your actual schema
 
     staging:
       schema: staging
       materialized: view
+
+
+seeds:
+  olist_dbt:
+    schema: seeds
+    product_category_name_translation:
+      column_types:
+        product_category_name: varchar
+        product_category_name_english: varchar

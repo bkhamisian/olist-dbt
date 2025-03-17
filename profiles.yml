@@ -6,4 +6,10 @@ olist_dbt: #my_project
       path: "olist.duckdb"
       schema: dev
 
+    prod:
+      type: duckdb
+      threads: 1
+      path: "olist.duckdb"
+      schema: prod
+
   target: dev

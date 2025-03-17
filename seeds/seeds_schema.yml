@@ -1,0 +1,15 @@
+version: 2
+
+seeds:
+  - name: product_category_name_translation
+    description: "This dataset includes the english translation of the product_category_name."
+    columns:
+      - name: product_category_name
+        description: "Product category name in Portuguese."
+#        tests:
+#          - not_null
+#          - unique
+      - name: product_category_name_english
+        description: "Product category name in English."
+#        tests:
+#          - not_null
