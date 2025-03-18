@@ -9,7 +9,7 @@ cleaned_customers as (
         customer_unique_id,
         customer_zip_code_prefix,
         customer_city,
-        cast(customer_state as char(2)) as customer_state
+        customer_state
     from olist_customers
 )
 

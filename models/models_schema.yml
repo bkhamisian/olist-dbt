@@ -12,7 +12,7 @@ models:
       - name: customer_unique_id
         description: "Unique identifier of a customer. Allowing the tracking of repeated purchases."
       - name: customer_zip_code_prefix
-        description: "The first five digits of the customers zip code. Keeping it as a varchar because storing it as an integer would remove the leading zeros."
+        description: "The first five digits of the customers zip code."
       - name: customer_city
         description: "The city where the customer is located."
       - name: customer_state
@@ -22,11 +22,11 @@ models:
     description: "Staging table for geolocation data with proper data types."
     columns:
       - name: geolocation_zip_code_prefix
-        description: "The first five digits of the zip code for the location. Keeping it as a varchar because storing it as an integer would remove the leading zeros."
+        description: "The first five digits of the zip code for the location."
       - name: geolocation_lat
-        description: "Latitude coordinate of the location. Range is correct, from -90 to +90. In our case float is a good option; A small rounding will likely not affect the analysis in case used."
+        description: "Latitude coordinate of the location. Range is correct, from -90 to +90. In our case float is a good option incase we want to visualize on a map."
       - name: geolocation_lng
-        description: "Longitude coordinate of the location. Range is correct, from -180 to +180. In our case float is a good option; A small rounding will likely not affect the analysis in case used."
+        description: "Longitude coordinate of the location. Range is correct, from -180 to +180. In our case float is a good option incase we want to visualize on a map."
       - name: geolocation_city
         description: "City name of the location."
       - name: geolocation_state
@@ -132,7 +132,7 @@ models:
       - name: seller_id
         description: "Primary Key. Unique identifier of the seller."
       - name: seller_zip_code_prefix
-        description: "The first five digits of the zip code for the seller. Keeping it as a varchar because storing it as an integer would remove the leading zeros."
+        description: "The first five digits of the zip code for the seller."
       - name: seller_city
         description: "City name of the seller."
       - name: seller_state

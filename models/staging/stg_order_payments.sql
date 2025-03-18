@@ -6,10 +6,10 @@ with olist_order_payments as (
 cleaned_order_payments as (
     select
         order_id,
-        cast(payment_sequential as integer)     as payment_sequential,
+        cast(payment_sequential as int64)    as payment_sequential,
         payment_type,
-        cast(payment_installments as integer)   as payment_installments,
-        cast(payment_value as float)            as payment_value
+        cast(payment_installments as int64)  as payment_installments,
+        cast(payment_value as float64)       as payment_value
     from olist_order_payments
 )
 

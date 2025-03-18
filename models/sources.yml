@@ -2,7 +2,7 @@ version: 2
 
 sources:
   - name: olist_data
-    database: olist
+    database: dbt-project-454118
     schema: olist_data
     description: "An open-source dataset on Brazilian E-Commerce (Olist) from Kaggle. These sources defines the raw data utilized in our dbt project."
     tables:
