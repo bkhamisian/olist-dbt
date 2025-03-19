@@ -48,8 +48,14 @@ semantic_models:
 
 metrics:
   - name: total_orders
-    description: "Unique count of customers placing orders"
-    label: "Customers with Orders"
+    description: "Customers with their Total Orders"
+    label:  "Customers with their Total Orders"
     type: simple
     type_params:
       measure: total_orders
+  - name: total_spent
+    description: "Total Spent by Customers"
+    label:  "Total Spent by Customers"
+    type: simple
+    type_params:
+      measure: total_spent
