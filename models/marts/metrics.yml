@@ -1,11 +1,14 @@
-version: 2
-
-metrics:
-  - name: total_revenue
-    label: "Total Revenue"
-    model: ref('fct_orders')
-    description: "Total revenue from all orders"
-    calculation_method: sum
-    expression: total_revenue
-    timestamp: order_date
-    time_grains: [day, week, month]
+#version: 2
+#
+#metrics:
+#  - name: total_revenue
+#    description: Total revenue from all orders
+#    label: Total Revenue
+#    model: ref('fct_orders')  # Model to calculate the metric from
+#    time_grains:
+#      - day
+#      - week
+#      - month
+#    timestamp: order_date  # Field used to group the metric by time
+#    calculation_method: sum  # The calculation to apply to the field
+#    expression: total_revenue  # The field in the model to aggregate
