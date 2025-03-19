@@ -14,15 +14,15 @@ select
     o.customer_unique_id,
     o.order_status,
     o.order_purchase_timestamp,
-    o.order_purchase_timestamp::date                                                  as order_date,
+    cast(o.order_purchase_timestamp as date)                                         as order_date,
     o.order_approved_timestamp,
     o.order_delivered_carrier_timestamp,
     o.order_delivered_customer_timestamp,
     o.order_estimated_delivery_date,
-    sum(oi.price)                                                                     as total_revenue,
-    sum(oi.freight_value)                                                             as total_freight,
-    count(oi.order_id)                                                                as total_items,
-    datediff('day', o.order_purchase_timestamp, o.order_delivered_customer_timestamp) as delivery_time_days
+    sum(oi.price)                                                                    as total_revenue,
+    sum(oi.freight_value)                                                            as total_freight,
+    count(oi.order_id)                                                               as total_items,
+    date_diff(o.order_delivered_customer_timestamp, o.order_purchase_timestamp, day) as delivery_time_days
 from orders o
 left join order_items oi
     on o.order_id = oi.order_id
