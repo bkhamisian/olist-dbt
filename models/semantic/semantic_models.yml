@@ -14,11 +14,12 @@ semantic_models:
       - name: total_orders
         description: "Total number of orders placed by the customer."
         expr: "total_orders"
+        time_dimension: order_date
         agg: sum
-      - name: total_spent
-        description: "Total amount spent by the customer."
-        expr: "total_spent"
-        agg: sum
+#      - name: total_spent
+#        description: "Total amount spent by the customer."
+#        expr: "total_spent"
+#        agg: sum
 #    dimensions:
 #      - name: first_order_date
 #        description: "Date of the customer's first order."
