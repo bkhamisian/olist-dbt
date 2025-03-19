@@ -35,7 +35,7 @@ semantic_models:
 #        type: number
 
 metrics:
-  - name: total_orders
+  - name: customer_orders
     description: "Unique count of customers placing orders"
     label: "Customers with Orders"
     type: simple
