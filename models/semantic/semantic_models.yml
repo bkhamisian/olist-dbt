@@ -25,6 +25,8 @@ semantic_models:
       - name: first_order_date
         description: "Date of the customer's first order."
         type: time
+        type_params:
+          time_granularity: day
 #      - name: avg_delivery_time
 #        description: "Average delivery time for the customer's orders."
 #        type: number
