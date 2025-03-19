@@ -54,7 +54,3 @@ models:
 seeds:
   olist_dbt:
     +schema: seeds
-    product_category_name_translation:
-      column_types:
-        product_category_name: varchar
-        product_category_name_english: varchar
