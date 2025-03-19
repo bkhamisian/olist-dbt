@@ -33,8 +33,21 @@ semantic_models:
 #        description: "Average delivery time for the customer's orders."
 #        type: number
 
+#    measures:
+#      - name: count_lifetime_orders
+#        description: Total count of orders per customer.
+#        agg: sum
+#        expr: number_of_orders
+#      - name: lifetime_spend
+#        agg: sum
+#        expr: lifetime_value
+#        description: Gross customer lifetime spend inclusive of taxes.
+#      - name: customers
+#        expr: customer_id
+#        agg: count_distinct
+
 metrics:
-  - name: customer_orders
+  - name: total_orders
     description: "Unique count of customers placing orders"
     label: "Customers with Orders"
     type: simple
