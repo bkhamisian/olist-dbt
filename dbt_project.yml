@@ -25,6 +25,14 @@ clean-targets:         # directories to be removed by `dbt clean`
   - "target"
   - "dbt_modules"
 
+vars:
+  metricflow_time_spine:
+    time_column_name: date_day
+    grain: day
+    start_date: '2016-01-01'
+    end_date: '2018-12-31'
+
+
 # Configuring models
 # Full documentation: https://docs.getdbt.com/docs/configuring-models
 
@@ -47,6 +55,10 @@ models:
     marts:
       +schema: marts
       +materialized: view
+
+    semantic:
+      +schema: semantic
+      +materialized: table
 
 #    metricflow_time_spine:
 #      materialized: table
