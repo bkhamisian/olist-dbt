@@ -1,0 +1,11 @@
+version: 2
+
+metrics:
+  - name: total_revenue
+    label: "Total Revenue"
+    model: ref('fct_orders')
+    description: "Total revenue from all orders"
+    calculation_method: sum
+    expression: total_revenue
+    timestamp: order_date
+    time_grains: [day, week, month]
