@@ -35,18 +35,9 @@ semantic_models:
 #        type: number
 
 metrics:
-  - name: customers_with_orders
-    label: "Customers with Orders"
+  - name: total_orders
     description: "Unique count of customers placing orders"
+    label: "Customers with Orders"
     type: simple
     type_params:
       measure: total_orders
-
-#metrics:
-#  - name: customers_with_orders
-#    label: Customers with Orders
-#    description: Number of customers who have placed orders.
-#    calculation_method: count
-#    expression: customer_id
-#    timestamp: order_date
-#    time_grains: [day, week, month]
