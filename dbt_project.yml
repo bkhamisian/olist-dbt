@@ -60,9 +60,6 @@ models:
       +schema: semantic_models
       +materialized: table
 
-#    metricflow_time_spine:
-#      materialized: table
-
 seeds:
   olist_dbt:
     +schema: seeds
