@@ -1,0 +1,28 @@
+version: 2
+
+semantic_models:
+  - name: customers_semantic_model
+    model: ref('dim_customers')
+    description: "Semantic model for customer data, including order statistics."
+    primary_entity: customer
+    entities:
+      - name: customer
+        expr: customer_unique_id
+        type: primary
+        description: "Unique identifier for each customer."
+    measures:
+      - name: total_orders
+        description: "Total number of orders placed by the customer."
+        expr: "total_orders"
+        agg: sum
+      - name: total_spent
+        description: "Total amount spent by the customer."
+        expr: "total_spent"
+        agg: sum
+#    dimensions:
+#      - name: first_order_date
+#        description: "Date of the customer's first order."
+#        type: string
+#      - name: avg_delivery_time
+#        description: "Average delivery time for the customer's orders."
+#        type: number
