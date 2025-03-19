@@ -6,7 +6,6 @@ semantic_models:
     description: "Semantic model for customer data, including order statistics."
     defaults:
       agg_time_dimension: first_order_date
-    primary_entity: customer
     entities:
       - name: customer
         expr: customer_unique_id
@@ -27,6 +26,7 @@ semantic_models:
         type: time
         type_params:
           time_granularity: day
+    primary_entity: customer
 #      - name: avg_delivery_time
 #        description: "Average delivery time for the customer's orders."
 #        type: number
