@@ -4,6 +4,8 @@ semantic_models:
   - name: customers_semantic_model
     model: ref('dim_customers')
     description: "Semantic model for customer data, including order statistics."
+    defaults:
+      agg_time_dimension: first_order_date
     primary_entity: customer
     entities:
       - name: customer
@@ -15,10 +17,10 @@ semantic_models:
         description: "Total number of orders placed by the customer."
         expr: "total_orders"
         agg: sum
-#      - name: total_spent
-#        description: "Total amount spent by the customer."
-#        expr: "total_spent"
-#        agg: sum
+      - name: total_spent
+        description: "Total amount spent by the customer."
+        expr: "total_spent"
+        agg: sum
     dimensions:
       - name: first_order_date
         description: "Date of the customer's first order."
