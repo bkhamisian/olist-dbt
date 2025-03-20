@@ -30,6 +30,7 @@ select
     count(oi.product_id)                                                             as total_products,
     sum(oi.freight_value)                                                            as total_freight,
     count(oi.order_id)                                                               as total_order_items,
+    round((sum(oi.price) / NULLIF(count(oi.order_id), 0)), 2)                        as average_order_value,
     max(total_payment_value)                                                         as total_payment_value,
     max(total_installments)                                                          as total_installments,
     date_diff(o.order_delivered_customer_timestamp, o.order_purchase_timestamp, day) as delivery_time_days

@@ -20,18 +20,21 @@ semantic_models:
         description: "Total amount spent by the customer."
         expr: "total_spent"
         agg: sum
+      - name: avg_delivery_time
+        description: "Average delivery time for the customer's orders."
+        expr: avg_delivery_time
+        agg: average
     dimensions:
       - name: first_order_date
         description: "Date of the customer's first order."
         type: time
         type_params:
           time_granularity: day
-#      - name: is_large_order
-#        type: categorical
-#        expr: case when order_total > 50 then true else false end
-#      - name: avg_delivery_time
-#        description: "Average delivery time for the customer's orders."
-#        type: number
+      - name: has_more_than_ten_orders
+        description: "Flag: Set to True if the total number of orders exceeds 10. Otherwise, it is set to False."
+        type: categorical
+        expr: case when total_orders > 10 then true else false end
+
 
 #    measures:
 #      - name: count_lifetime_orders
@@ -48,14 +51,20 @@ semantic_models:
 
 metrics:
   - name: total_orders
-    description: "Customers with their Total Orders"
-    label:  "Customers with their Total Orders"
+    description: "Total number of orders placed by customers."
+    label:  "Total Orders"
     type: simple
     type_params:
       measure: total_orders
   - name: total_spent
-    description: "Total Spent by Customers"
-    label:  "Total Spent by Customers"
+    description: "Total amount spent by customers."
+    label: "Total Spent"
     type: simple
     type_params:
       measure: total_spent
+  - name: avg_delivery_time
+    description: "Average delivery time for customer orders."
+    label: "Average Delivery Time"
+    type: simple
+    type_params:
+      measure: avg_delivery_time
