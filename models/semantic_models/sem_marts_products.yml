@@ -7,7 +7,7 @@ semantic_models:
     defaults:
       agg_time_dimension: product_first_sold_date
     entities:
-      - name: product
+      - name: product_id
         expr: product_id
         type: primary
         description: "Unique identifier for each product."
