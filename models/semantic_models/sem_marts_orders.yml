@@ -71,12 +71,12 @@ metrics:
     type: simple
     type_params:
       measure: delivery_time_days
-#  - name: large_orders
-#    description: "Count of orders with order total over 10."
-#    type: simple
-#    label: "Large Orders"
-#    type_params:
-#      measure:
-#        name: total_order_items
-#    filter: |
-#      {{ Metric('total_order_items', group_by=['order_id']) }} >=  10
+  - name: large_orders
+    description: "Count of orders with order total over 10."
+    type: simple
+    label: "Large Orders"
+    type_params:
+      measure:
+        name: total_order_items
+    filter: |
+      {{ Metric('total_order_items', group_by=['order_id']) }} >=  10
