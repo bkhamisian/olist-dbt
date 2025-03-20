@@ -1,0 +1,82 @@
+version: 2
+
+semantic_models:
+  - name: orders_semantic_model
+    model: ref('marts_orders')
+    description: "Semantic model for order data, including order value and delivery statistics."
+    defaults:
+      agg_time_dimension: order_date
+    entities:
+      - name: order
+        expr: order_id
+        type: primary
+        description: "Unique identifier for each order."
+      - name: customer
+        expr: customer_unique_id
+        type: foreign
+        description: "Unique identifier for each customer."
+    dimensions:
+      - name: order_date
+        description: "Date when the order was placed."
+        type: time
+        type_params:
+          time_granularity: day
+      - name: order_status
+        description: "Current status of the order."
+        type: categorical
+    measures:
+      - name: total_order_value
+        description: "Total value of the order."
+        expr: total_order_value
+        agg: sum
+      - name: total_products
+        description: "Total number of products in the order."
+        expr: total_products
+        agg: sum
+      - name: total_freight
+        description: "Total freight cost of the order."
+        expr: total_freight
+        agg: sum
+      - name: delivery_time_days
+        description: "Delivery time in days for the order."
+        expr: delivery_time_days
+        agg: average
+      - name: total_order_items
+        description: "Total order items within an order."
+        expr: total_order_items
+        agg: sum
+
+metrics:
+  - name: total_order_value
+    description: "Total value of orders."
+    label: "Total Order Value"
+    type: simple
+    type_params:
+      measure: total_order_value
+  - name: total_products
+    description: "Total number of products in orders."
+    label: "Total Products"
+    type: simple
+    type_params:
+      measure: total_products
+  - name: total_freight
+    description: "Total freight cost of orders."
+    label: "Total Freight"
+    type: simple
+    type_params:
+      measure: total_freight
+  - name: delivery_time_days
+    description: "Average delivery time in days for orders."
+    label: "Delivery Time (Days)"
+    type: simple
+    type_params:
+      measure: delivery_time_days
+  - name: large_orders
+    description: "Count of orders with order total over 10."
+    type: simple
+    label: "Large Orders"
+    type_params:
+      measure:
+        name: total_order_items
+    filter: |
+      {{ Metric('total_order_items', group_by=['order_id']) }} >=  10
