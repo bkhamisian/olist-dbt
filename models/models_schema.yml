@@ -10,7 +10,7 @@ models:
 #               - unique
 #               - not_null
       - name: customer_unique_id
-        description: "Unique identifier of a customer. Allowing the tracking of repeated purchases."
+        description: "Unique identifier for each customer across the whole system."
       - name: customer_zip_code_prefix
         description: "The first five digits of the customers zip code."
       - name: customer_city
@@ -38,7 +38,7 @@ models:
       - name: order_id
         description: "Unique identifier for each order."
       - name: order_item_id
-        description: "Sequential number identifying items within an order because orders can have multiple items."
+        description: "Identifier for each item within an order because orders can have multiple items."
       - name: product_id
         description: "Identifier for the purchased product."
       - name: seller_id
@@ -137,3 +137,67 @@ models:
         description: "City name of the seller."
       - name: seller_state
         description: "State abbreviation of the seller."
+
+  - name: int_order_items_with_details
+    description: "Intermediate model combining order items with product, seller, and order details."
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order."
+      - name: order_item_id
+        description: "Identifier for each item within an order because orders can have multiple items."
+      - name: product_id
+        description: "Identifier linking to the product."
+      - name: seller_id
+        description: "Identifier linking to the seller."
+      - name: price
+        description: "Price of the product item."
+      - name: freight_value
+        description: "Shipping cost associated with the product item. If an order contains multiple items, the freight cost is divided among the items."
+      - name: order_purchase_date
+        description: "Date when the order was purchased."
+      - name: product_category_name
+        description: "Category of the product in Portuguese."
+      - name: product_category_name_english
+        description: "Product category name in English."
+      - name: seller_city
+        description: "City name of the seller."
+      - name: seller_state
+        description: "State abbreviation of the seller."
+
+  - name: int_order_payments
+    description: "Intermediate model summarizing payment information for each order."
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order."
+      - name: cnt_payment_types
+        description: "Count of distinct payment methods (example: credit_card etc) used for the order."
+      - name: total_payment_value
+        description: "Total amount paid for the order."
+      - name: total_installments
+        description: "Total number of payment installments for the order."
+
+  - name: int_orders_with_customers
+    description: "Intermediate model combining customer with order details."
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order."
+      - name: customer_id
+        description: "Identifier for the customer who placed the order. Each order has a unique customer_id."
+      - name: order_status
+        description: "Status of the order (example: delivered, canceled, etc)."
+      - name: order_purchase_timestamp
+        description: "Timestamp when the order was purchased."
+      - name: order_approved_timestamp
+        description: "Timestamp when the order was approved."
+      - name: order_delivered_carrier_timestamp
+        description: "Timestamp when the order was handed to the carrier."
+      - name: order_delivered_customer_timestamp
+        description: "Timestamp when the order was delivered to the customer."
+      - name: order_estimated_delivery_date
+        description: "Estimated delivery date of the order at the purchase moment."
+      - name: customer_unique_id
+        description: "Unique identifier for each customer across the whole system."
+      - name: customer_city
+        description: "The city where the customer is located."
+      - name: customer_state
+        description: "The abbreviated state where the customer is located."
