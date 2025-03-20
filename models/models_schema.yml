@@ -6,73 +6,124 @@ models:
     columns:
       - name: customer_id
         description: "Primary Key to the orders dataset. Each order has a unique customer_id."
-#        tests:
-#               - unique
-#               - not_null
+        tests:
+          - unique
+          - not_null
       - name: customer_unique_id
         description: "Unique identifier for each customer across the whole system."
+        tests:
+          - not_null
       - name: customer_zip_code_prefix
         description: "The first five digits of the customers zip code."
+        tests:
+          - not_null
       - name: customer_city
         description: "The city where the customer is located."
+        tests:
+          - not_null
       - name: customer_state
         description: "The abbreviated state where the customer is located."
+        tests:
+          - not_null
 
   - name: stg_geolocation
     description: "Staging table for geolocation data with proper data types."
     columns:
       - name: geolocation_zip_code_prefix
         description: "The first five digits of the zip code for the location."
+        tests:
+          - not_null
       - name: geolocation_lat
         description: "Latitude coordinate of the location. Range is correct, from -90 to +90. In our case float is a good option incase we want to visualize on a map."
+        tests:
+          - not_null
       - name: geolocation_lng
         description: "Longitude coordinate of the location. Range is correct, from -180 to +180. In our case float is a good option incase we want to visualize on a map."
+        tests:
+          - not_null
       - name: geolocation_city
         description: "City name of the location."
+        tests:
+          - not_null
       - name: geolocation_state
         description: "State abbreviation of the location."
+        tests:
+          - not_null
 
   - name: stg_order_items
     description: "Staging table for order item data with proper data types."
     columns:
       - name: order_id
         description: "Unique identifier for each order."
+        tests:
+          - not_null
       - name: order_item_id
         description: "Identifier for each item within an order because orders can have multiple items."
+        tests:
+          - not_null
       - name: product_id
         description: "Identifier for the purchased product."
+        tests:
+          - not_null
       - name: seller_id
         description: "Identifier for the seller."
+        tests:
+          - not_null
       - name: shipping_limit_timestamp
         description: "Deadline (timestamp) for the seller to ship the product. Changed alias name from date to a timestamp for better readability."
+        tests:
+          - not_null
       - name: price
         description: "Price of the product item."
+        tests:
+          - not_null
       - name: freight_value
         description: "Shipping cost associated with the product item. If an order contains multiple items, the freight cost is divided among the items."
+        tests:
+          - not_null
 
   - name: stg_order_payments
     description: "Staging table for order payment data with proper data types."
     columns:
       - name: order_id
         description: "Unique identifier for the order."
+        tests:
+          - not_null
       - name: payment_sequential
         description: "Sequence number of the payment within an order. A customer may pay an order with more than one payment method."
+        tests:
+          - not_null
       - name: payment_type
         description: "Payment method (example: credit_card, voucher, etc)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['credit_card', 'voucher', 'not_defined', 'boleto', 'debit_card']
       - name: payment_installments
         description: "Number of installments chosen for the payment."
+        tests:
+          - not_null
       - name: payment_value
         description: "Amount paid for the order."
+        tests:
+          - not_null
 
   - name: stg_order_reviews
     description: "Staging table for order review data with proper data types."
     columns:
       - name: review_id
         description: "Unique identifier for each review."
+#        tests:
+#          - unique
+#          - not_null
       - name: order_id
         description: "Identifier for the associated order."
+#        tests:
+#          - not_null
       - name: review_score
         description: "Rating given by the customer (1 to 5)."
+#        tests:
+#          - not_null
       - name: review_comment_title
         description: "Title of the review comment."
       - name: review_comment_message
@@ -87,12 +138,24 @@ models:
     columns:
       - name: order_id
         description: "Primary Key. Unique identifier for each order."
+        tests:
+          - unique
+          - not_null
       - name: customer_id
         description: "Identifier for the customer who placed the order. Each order has a unique customer_id."
+        tests:
+          - unique
+          - not_null
       - name: order_status
         description: "Status of the order (example: delivered, canceled, etc)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['approved', 'canceled', 'created', 'delivered', 'invoiced', 'processing', 'shipped', 'unavailable']
       - name: order_purchase_timestamp
         description: "Timestamp when the order was purchased."
+        tests:
+          - not_null
       - name: order_approved_timestamp
         description: "Timestamp when the order/payment was approved. Changed alias name to a timestamp for better readability."
       - name: order_delivered_carrier_timestamp
@@ -101,12 +164,17 @@ models:
         description: "Timestamp when the order was delivered to the customer. Changed alias name from date to a timestamp for better readability."
       - name: order_estimated_delivery_date
         description: "Estimated delivery date of the order at the purchase moment."
+        tests:
+          - not_null
 
   - name: stg_products
     description: "Staging table for product data with proper data types. Includes an additional field, the English translations for product category names."
     columns:
       - name: product_id
         description: "Primary Key. Unique identifier for each product."
+        tests:
+          - unique
+          - not_null
       - name: product_category_name
         description: "Category of the product in Portuguese."
       - name: product_category_name_english
@@ -131,30 +199,64 @@ models:
     columns:
       - name: seller_id
         description: "Primary Key. Unique identifier of the seller."
+        tests:
+          - unique
+          - not_null
       - name: seller_zip_code_prefix
         description: "The first five digits of the zip code for the seller."
+        tests:
+          - not_null
       - name: seller_city
         description: "City name of the seller."
+        tests:
+          - not_null
       - name: seller_state
         description: "State abbreviation of the seller."
+        tests:
+          - not_null
 
   - name: int_order_items_with_details
     description: "Intermediate model combining order items with product, seller, and order details."
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "price >= 0"
+      - dbt_utils.expression_is_true:
+          expression: "freight_value >= 0"
     columns:
       - name: order_id
         description: "Unique identifier for each order."
+        tests:
+          - not_null
       - name: order_item_id
         description: "Identifier for each item within an order because orders can have multiple items."
+        tests:
+          - not_null
       - name: product_id
         description: "Identifier linking to the product."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_products')
+              field: product_id
       - name: seller_id
         description: "Identifier linking to the seller."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_sellers')
+              field: seller_id
       - name: price
         description: "Price of the product item."
+        tests:
+          - not_null
       - name: freight_value
         description: "Shipping cost associated with the product item. If an order contains multiple items, the freight cost is divided among the items."
+        tests:
+          - not_null
       - name: order_purchase_date
         description: "Date when the order was purchased."
+        tests:
+          - not_null
       - name: product_category_name
         description: "Category of the product in Portuguese."
       - name: product_category_name_english
@@ -166,27 +268,60 @@ models:
 
   - name: int_order_payments
     description: "Intermediate model summarizing payment information for each order."
+    tests:
+      - dbt_utils.expression_is_true:
+          expression: "cnt_payment_types >= 1"
+      - dbt_utils.expression_is_true:
+          expression: "total_payment_value >= 0"
+      - dbt_utils.expression_is_true:
+          expression: "total_installments >= 0"
     columns:
       - name: order_id
         description: "Unique identifier for each order."
+        tests:
+          - not_null
+          - unique
+          - relationships:
+              to: ref('stg_orders')
+              field: order_id
       - name: cnt_payment_types
         description: "Count of distinct payment methods (example: credit_card etc) used for the order."
+        tests:
+          - not_null
       - name: total_payment_value
-        description: "Total amount paid for the order."
+        description: "Total payment value for the order."
+        tests:
+          - not_null
       - name: total_installments
         description: "Total number of payment installments for the order."
+        tests:
+          - not_null
 
   - name: int_orders_with_customers
     description: "Intermediate model combining customer with order details."
     columns:
       - name: order_id
         description: "Unique identifier for each order."
+        tests:
+          - not_null
+          - unique
       - name: customer_id
         description: "Identifier for the customer who placed the order. Each order has a unique customer_id."
+        tests:
+          - not_null
+          - relationships:
+              to: ref('stg_customers')
+              field: customer_id
       - name: order_status
         description: "Status of the order (example: delivered, canceled, etc)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['approved', 'canceled', 'created', 'delivered', 'invoiced', 'processing', 'shipped', 'unavailable']
       - name: order_purchase_timestamp
         description: "Timestamp when the order was purchased."
+        tests:
+          - not_null
       - name: order_approved_timestamp
         description: "Timestamp when the order was approved."
       - name: order_delivered_carrier_timestamp
@@ -201,3 +336,154 @@ models:
         description: "The city where the customer is located."
       - name: customer_state
         description: "The abbreviated state where the customer is located."
+
+  - name: marts_customers
+    description: "Aggregated customer metrics, including order statistics and spending habits. Focused only on customers that had at least one order that was not canceled or unavailable."
+    columns:
+      - name: customer_unique_id
+        description: "Unique identifier for each customer across the whole system."
+        tests:
+          - not_null
+          - unique
+      - name: first_order_date
+        description: "Date when the customer placed their first order."
+        tests:
+          - not_null
+      - name: cnt_distinct_order_days
+        description: "Number of distinct days the customer placed orders."
+        tests:
+          - not_null
+      - name: total_orders
+        description: "Total number of overall orders placed by the customer."
+        tests:
+          - not_null
+      - name: total_spent
+        description: "Total amount spent by the customer, including freight value."
+        tests:
+          - not_null
+      - name: avg_delivery_time
+        description: "Average delivery time (in days) for the customer's orders."
+      - name: is_repeat_customer
+        description: "A flag that shows if the customer has placed more than one distinct order."
+        tests:
+          - not_null
+
+  - name: marts_orders
+    description: "Detailed order metrics, combining information from orders, order items, and payments."
+    columns:
+      - name: order_id
+        description: "Unique identifier for each order."
+        tests:
+          - not_null
+          - unique
+      - name: customer_id
+        description: "Identifier for the customer who placed the order. Each order has a unique customer_id."
+        tests:
+          - not_null
+          - unique
+      - name: customer_unique_id
+        description: "Unique identifier for each customer across the whole system."
+        tests:
+          - not_null
+      - name: customer_city
+        description: "The city where the customer is located."
+        tests:
+          - not_null
+      - name: order_status
+        description: "Status of the order (example: delivered, canceled, etc)."
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['approved', 'canceled', 'created', 'delivered', 'invoiced', 'processing', 'shipped', 'unavailable']
+      - name: order_date
+        description: "Date when the order was purchased."
+        tests:
+          - not_null
+      - name: delivered_date
+        description: "Date when the order was delivered to the customer."
+      - name: order_estimated_delivery_date
+        description: "Estimated delivery date of the order at the purchase moment."
+        tests:
+          - not_null
+      - name: delivery_time_days
+        description: "Delivery time in days from purchase to customer delivery."
+      - name: total_order_value
+        description: "Total value of the order, excluding freight."
+      - name: total_products
+        description: "Total number of distinct products in the order."
+        tests:
+          - not_null
+      - name: total_freight
+        description: "Total freight cost for the order."
+      - name: total_order_items
+        description: "Total number of items in the order."
+        tests:
+          - not_null
+      - name: average_order_value
+        description: "Average revenue per order."
+      - name: cnt_payment_types # has one null value
+        description: "Count of distinct payment methods (example: credit_card etc) used for the order."
+        tests:
+          - not_null
+      - name: total_payment_value # has one null value
+        description: "Total payment value for the order."
+        tests:
+          - not_null
+      - name: total_installments # has one null value
+        description: "Total number of payment installments for the order."
+        tests:
+          - not_null
+
+  - name: marts_products
+    description: "Aggregated product metrics, including sales performance and revenue."
+    columns:
+      - name: product_id
+        description: "Unique identifier for each product."
+        tests:
+          - not_null
+          - unique
+      - name: product_category_name
+        description: "Category of the product in Portuguese."
+      - name: product_category_name_english
+        description: "Product category name in English."
+      - name: product_first_sold_date
+        description: "Date when the product was first sold."
+        tests:
+          - not_null
+      - name: total_product_orders
+        description: "Total number of orders containing the product."
+        tests:
+          - not_null
+      - name: total_revenue
+        description: "Total revenue generated from the product sales."
+        tests:
+          - not_null
+      - name: avg_price
+        description: "Average selling price of the product."
+        tests:
+          - not_null
+
+  - name: marts_sellers
+    description: "Aggregated data for sellers, including sales performance metrics."
+    columns:
+      - name: seller_id
+        description: "Unique identifier for each seller."
+        tests:
+          - not_null
+          - unique
+      - name: seller_city
+        description: "City name of the seller."
+        tests:
+          - not_null
+      - name: first_sale_date
+        description: "Date of the seller's first sale."
+        tests:
+          - not_null
+      - name: total_seller_orders
+        description: "Total number of orders fulfilled by the seller."
+        tests:
+          - not_null
+      - name: unique_products_sold
+        description: "Number of distinct products sold."
+        tests:
+          - not_null

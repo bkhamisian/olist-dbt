@@ -7,9 +7,12 @@ select
     product_id,
     product_category_name,
     product_category_name_english,
-    min(order_purchase_date)        as product_first_sold_date,
-    count(order_id)                 as total_product_orders,
-    sum(price)                      as total_revenue,
-    round(avg(price), 2)            as avg_price
+    min(order_purchase_date)                                          as product_first_sold_date,
+    count(case when lower(order_status)
+          not in ('canceled', 'unavailable') then order_id end)       as total_product_orders,
+    coalesce(round(sum(case when lower(order_status)
+          not in ('canceled', 'unavailable') then price end), 2), 0)  as total_revenue,
+    coalesce(round(avg(case when lower(order_status)
+          not in ('canceled', 'unavailable') then price end), 2), 0)  as avg_price
 from order_items
 group by 1, 2, 3

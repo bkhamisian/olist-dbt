@@ -25,11 +25,12 @@ select
     oi.seller_id,
     oi.price,
     oi.freight_value,
-    cast(o.order_purchase_timestamp as date) as order_purchase_date,
     p.product_category_name,
     p.product_category_name_english,
     s.seller_city,
-    s.seller_state
+    s.seller_state,
+    o.order_status,
+    cast(o.order_purchase_timestamp as date) as order_purchase_date
 from order_items oi
 left join products p
     on oi.product_id = p.product_id
