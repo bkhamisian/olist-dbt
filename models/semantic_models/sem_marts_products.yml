@@ -24,10 +24,6 @@ semantic_models:
         description: "Average price of the product."
         expr: avg_price
         agg: average
-      - name: return_rate
-        description: "Return rate of the product."
-        expr: return_rate
-        agg: average
     dimensions:
       - name: product_first_sold_date
         description: "Date when the product was first sold."
@@ -57,9 +53,3 @@ metrics:
     type: simple
     type_params:
       measure: avg_price
-  - name: return_rate
-    description: "Return rate of products."
-    label: "Return Rate"
-    type: simple
-    type_params:
-      measure: return_rate
