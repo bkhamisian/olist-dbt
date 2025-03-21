@@ -83,9 +83,24 @@ metrics:
     type: simple
     type_params:
       measure: customer_retention_rate
+#    type: ratio
+#    type_params:
+#      numerator: repeat_customer_count
+#      denominator: total_customers
   - name: customer_churn_rate
     description: "Percentage of customers who stopped purchasing during different cohort months."
     label: "Customer Churn Rate"
     type: simple
     type_params:
       measure: customer_churn_rate
+#    type: ratio
+#    type_params:
+#      numerator: total_customers - repeat_customer_count
+#      denominator: total_customers
+#  - name: total_customers
+#    description: "Total number of unique customers."
+#    label: "Total Customers"
+#    type: simple
+#    type_params:
+#      measure: customer_unique_id
+#      agg: count_distinct

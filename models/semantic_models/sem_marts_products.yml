@@ -46,7 +46,7 @@ metrics:
     label: "Total Price"
     type: simple
     type_params:
-      measure: total_revenue
+      measure: total_price
   - name: avg_price
     description: "Average selling price of the product excluding freight value and the ones that were unavailable or canceled."
     label: "Average Price"
