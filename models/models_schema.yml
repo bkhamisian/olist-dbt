@@ -272,7 +272,7 @@ models:
       - dbt_utils.expression_is_true:
           expression: "cnt_payment_types >= 1"
       - dbt_utils.expression_is_true:
-          expression: "total_payment_value >= 0"
+          expression: "total_revenue >= 0"
       - dbt_utils.expression_is_true:
           expression: "total_installments >= 0"
     columns:
@@ -288,7 +288,7 @@ models:
         description: "Count of distinct payment methods (example: credit_card etc) used for the order."
         tests:
           - not_null
-      - name: total_payment_value
+      - name: total_revenue
         description: "Total payment value for the order."
         tests:
           - not_null
@@ -349,6 +349,10 @@ models:
         description: "Date when the customer placed their first order."
         tests:
           - not_null
+      - name: last_order_date
+        description: "Date when the customer placed their last order."
+        tests:
+          - not_null
       - name: cnt_distinct_order_days
         description: "Number of distinct days the customer placed orders."
         tests:
@@ -357,14 +361,18 @@ models:
         description: "Total number of overall orders placed by the customer."
         tests:
           - not_null
-      - name: total_spent
+      - name: customer_lifetime_value
         description: "Total amount spent by the customer, including freight value."
         tests:
           - not_null
       - name: avg_delivery_time
         description: "Average delivery time (in days) for the customer's orders."
-      - name: is_repeat_customer
-        description: "A flag that shows if the customer has placed more than one distinct order."
+      - name: customer_retention_rate
+        description: "Represents the rate of repeat customers over monthly cohort."
+        tests:
+          - not_null
+      - name: customer_churn_rate
+        description: "Represents rate of customers who stop purchasing over a monthly cohort."
         tests:
           - not_null
 
@@ -373,11 +381,6 @@ models:
     columns:
       - name: order_id
         description: "Unique identifier for each order."
-        tests:
-          - not_null
-          - unique
-      - name: customer_id
-        description: "Identifier for the customer who placed the order. Each order has a unique customer_id."
         tests:
           - not_null
           - unique
@@ -401,12 +404,10 @@ models:
           - not_null
       - name: delivered_date
         description: "Date when the order was delivered to the customer."
-      - name: order_estimated_delivery_date
-        description: "Estimated delivery date of the order at the purchase moment."
-        tests:
-          - not_null
       - name: delivery_time_days
         description: "Delivery time in days from purchase to customer delivery."
+      - name: delivery_status
+        description: "Evaluates delivery performance (on time vs late)."
       - name: total_order_value
         description: "Total value of the order, excluding freight."
       - name: total_products
@@ -425,7 +426,7 @@ models:
         description: "Count of distinct payment methods (example: credit_card etc) used for the order."
         tests:
           - not_null
-      - name: total_payment_value # has one null value
+      - name: total_revenue # has one null value
         description: "Total payment value for the order."
         tests:
           - not_null
@@ -454,8 +455,8 @@ models:
         description: "Total number of orders containing the product."
         tests:
           - not_null
-      - name: total_revenue
-        description: "Total revenue generated from the product sales."
+      - name: total_price
+        description: "Total price generated from the product sales."
         tests:
           - not_null
       - name: avg_price

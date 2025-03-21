@@ -14,19 +14,36 @@ semantic_models:
     measures:
       - name: total_orders
         description: "Total number of orders placed by the customer."
-        expr: "total_orders"
+        expr: total_orders
         agg: sum
-      - name: total_spent
-        description: "Total amount spent by the customer."
-        expr: "total_spent"
+      - name: cnt_distinct_order_days
+        description: "Total distinct days orders were place by the customer."
+        expr: cnt_distinct_order_days
+        agg: sum
+      - name: customer_lifetime_value
+        description: "Revenue from a customer over their lifetime."
+        expr: customer_lifetime_value
         agg: sum
       - name: avg_delivery_time
         description: "Average delivery time for the customer's orders."
         expr: avg_delivery_time
         agg: average
+      - name: customer_retention_rate
+        description: "Percentage of customers who made repeat purchases during different cohort months."
+        expr: customer_retention_rate
+        agg: average
+      - name: customer_churn_rate
+        description: "Percentage of customers who stopped purchasing during different cohort months."
+        expr: customer_churn_rate
+        agg: average
     dimensions:
       - name: first_order_date
         description: "Date of the customer's first order."
+        type: time
+        type_params:
+          time_granularity: day
+      - name: last_order_date
+        description: "Date of the customer's last order."
         type: time
         type_params:
           time_granularity: day
@@ -35,20 +52,6 @@ semantic_models:
         type: categorical
         expr: case when total_orders > 10 then true else false end
 
-
-#    measures:
-#      - name: count_lifetime_orders
-#        description: Total count of orders per customer.
-#        agg: sum
-#        expr: number_of_orders
-#      - name: lifetime_spend
-#        agg: sum
-#        expr: lifetime_value
-#        description: Gross customer lifetime spend inclusive of taxes.
-#      - name: customers
-#        expr: customer_id
-#        agg: count_distinct
-
 metrics:
   - name: total_orders
     description: "Total number of orders placed by customers."
@@ -56,15 +59,33 @@ metrics:
     type: simple
     type_params:
       measure: total_orders
-  - name: total_spent
-    description: "Total amount spent by customers."
-    label: "Total Spent"
+  - name: cnt_distinct_order_days
+    description: "Total distinct days orders were place by the customer."
+    label: "Distinct Days Orders Placed"
     type: simple
     type_params:
-      measure: total_spent
+      measure: total_orders
+  - name: customer_lifetime_value
+    description: "Revenue from a customer over their lifetime."
+    label: "Customer Lifetime Value (CLV)"
+    type: simple
+    type_params:
+      measure: customer_lifetime_value
   - name: avg_delivery_time
     description: "Average delivery time for customer orders."
     label: "Average Delivery Time"
     type: simple
     type_params:
       measure: avg_delivery_time
+  - name: customer_retention_rate
+    description: "Percentage of customers who made repeat purchases during different cohort months."
+    label: "Customer Retention Rate"
+    type: simple
+    type_params:
+      measure: customer_retention_rate
+  - name: customer_churn_rate
+    description: "Percentage of customers who stopped purchasing during different cohort months."
+    label: "Customer Churn Rate"
+    type: simple
+    type_params:
+      measure: customer_churn_rate

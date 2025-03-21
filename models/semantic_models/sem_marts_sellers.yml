@@ -1,0 +1,45 @@
+version: 2
+
+semantic_models:
+  - name: sellers_semantic_model
+    model: ref('marts_sellers')
+    description: "Semantic model for sellers data, including sales statistics."
+    defaults:
+      agg_time_dimension: first_sale_date
+    entities:
+      - name: seller_id
+        expr: seller_id
+        type: primary
+        description: "Unique identifier for each seller."
+    measures:
+      - name: total_seller_orders
+        description: "Total number of orders fulfilled by the seller."
+        expr: total_seller_orders
+        agg: sum
+      - name: unique_products_sold
+        description: "Number of distinct products sold."
+        expr: unique_products_sold
+        agg: sum
+    dimensions:
+      - name: first_sale_date
+        description: "Date of the seller's first sale."
+        type: time
+        type_params:
+          time_granularity: day
+      - name: seller_city
+        description: "City name of the seller."
+        type: categorical
+
+metrics:
+  - name: total_seller_orders
+    description: "Total number of orders fulfilled by the seller."
+    label: "Total Seller Orders"
+    type: simple
+    type_params:
+      measure: total_seller_orders
+  - name: unique_products_sold
+    description: "Number of distinct products sold."
+    label: "Unique Products Sold"
+    type: simple
+    type_params:
+      measure: unique_products_sold

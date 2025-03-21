@@ -64,9 +64,10 @@ The relationships between these tables are important for defining key metrics an
 
 Several KPIs can be important for understanding business performance for this dataset. These metrics help understand customer behavior, sales trends, and overall business efficiency. Here are the primary metrics I focused on:
 
-- **Total Revenue per Month & Revenue Growth Rate:** Measures the monthly sales and the rate at which revenue is increasing or decreasing over time.
+- **Total Revenue per Month:** Measures the monthly sales and the rate at which revenue is increasing or decreasing over time.
 - **Total Products Sold per Month:** Indicates the volume of products sold monthly. We can understand sales trends and seasonality.
-- **Customer Retention Rate:** Represents the percentage of repeat customers over a specific period, highlighting customer loyalty.
+- **Customer Lifetime Value (CLV):** The projected revenue from a customer over the entire duration of their relationship with Olist.
+- **Customer Retention Rate:** Represents the percentage of repeat customers over a specific period, displaying customer satisfaction.
 - **Customer Churn Rate:** To understand the percentage of customers who stop purchasing over a given timeframe.
 - **Average Order Value (AOV):** Calculates the average revenue per order, offering insights into customer purchasing behavior.
 - **Delivery Status (Late vs. On-Time Deliveries):** Evaluates the efficiency of the delivery process by comparing late deliveries to those on time.

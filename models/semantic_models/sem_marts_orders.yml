@@ -14,23 +14,14 @@ semantic_models:
       - name: customer
         expr: customer_unique_id
         type: foreign
-        description: "Unique identifier for each customer."
-    dimensions:
-      - name: order_date
-        description: "Date when the order was placed."
-        type: time
-        type_params:
-          time_granularity: day
-      - name: order_status
-        description: "Current status of the order."
-        type: categorical
+        description: "Unique identifier for each customer across the whole system."
     measures:
       - name: total_order_value
         description: "Total value of the order."
         expr: total_order_value
         agg: sum
       - name: total_products
-        description: "Total number of products in the order."
+        description: "Total number of products in orders."
         expr: total_products
         agg: sum
       - name: total_freight
@@ -38,17 +29,53 @@ semantic_models:
         expr: total_freight
         agg: sum
       - name: delivery_time_days
-        description: "Delivery time in days for the order."
+        description: "Delivery time in days from purchase to customer delivery."
         expr: delivery_time_days
         agg: average
       - name: total_order_items
-        description: "Total order items within an order."
+        description: "Total number of items in the order."
         expr: total_order_items
         agg: sum
+      - name: average_order_value
+        description: "Average revenue per order."
+        expr: average_order_value
+        agg: average
+      - name: cnt_payment_types
+        description: "Count of distinct payment methods (example: credit_card etc) used for the order."
+        expr: cnt_payment_types
+        agg: sum
+      - name: total_revenue
+        description: "Total payment value for the order."
+        expr: total_revenue
+        agg: sum
+      - name: total_installments
+        description: "Total number of payment installments for the order."
+        expr: total_installments
+        agg: sum
+    dimensions:
+      - name: order_date
+        description: "Date when the order was placed."
+        type: time
+        type_params:
+          time_granularity: day
+      - name: delivered_date
+        description: "Date when the order was delivered to the customer."
+        type: time
+        type_params:
+          time_granularity: day
+      - name: customer_city
+        description: "The city where the customer is located."
+        type: categorical
+      - name: order_status
+        description: "Status of the order (example: delivered, canceled, etc)."
+        type: categorical
+      - name: delivery_status
+        description: "Evaluates delivery performance (on time vs late)."
+        type: categorical
 
 metrics:
   - name: total_order_value
-    description: "Total value of orders."
+    description: "Total value of the order."
     label: "Total Order Value"
     type: simple
     type_params:
@@ -60,23 +87,65 @@ metrics:
     type_params:
       measure: total_products
   - name: total_freight
-    description: "Total freight cost of orders."
+    description: "Delivery time in days from purchase to customer delivery."
     label: "Total Freight"
     type: simple
     type_params:
       measure: total_freight
   - name: delivery_time_days
-    description: "Average delivery time in days for orders."
+    description: "Delivery time in days from purchase to customer delivery."
     label: "Delivery Time (Days)"
     type: simple
     type_params:
       measure: delivery_time_days
-#  - name: large_orders
-#    description: "Count of orders with order total over 10."
+  - name: total_order_items
+    description: "Delivery time in days from purchase to customer delivery."
+    label: "Total Number of Items"
+    type: simple
+    type_params:
+      measure: total_order_items
+  - name: average_order_value
+    description: "Average revenue per order."
+    label: "Average Order Value (AOV)"
+    type: simple
+    type_params:
+      measure: average_order_value
+  - name: cnt_payment_types
+    description: "Count of distinct payment methods (example: credit_card etc) used for the order."
+    label: "Total Distinct Payment Types"
+    type: simple
+    type_params:
+      measure: cnt_payment_types
+  - name: total_revenue
+    description: "Total payment value for the order."
+    label: "Total Revenue"
+    type: simple
+    type_params:
+      measure: total_revenue
+  - name: total_installments
+    description: "Total number of payment installments for the order."
+    label: "Total Installments"
+    type: simple
+    type_params:
+      measure: total_installments
+#  - name: late_deliveries
+#    description: "Total number of late deliveries."
+#    label: "Late Deliveries"
 #    type: simple
-#    label: "Large Orders"
 #    type_params:
-#      measure:
-#        name: total_order_items
-#    filter: |
-#      {{ Metric('total_order_items', group_by=['order_id']) }} >=  10
+#      measure: total_orders
+#    filter:
+#      field: delivery_status
+#      operator: equals
+#      value: "Late"
+#  - name: on_time_deliveries
+#    description: "Total number of on-time deliveries."
+#    type: simple
+#    type_params:
+#      measure: total_orders
+#    label: "On-Time Deliveries"
+#    model: ref('delivery_metrics')
+#    filter:
+#      field: delivery_status
+#      operator: equals
+#      value: "On-Time"

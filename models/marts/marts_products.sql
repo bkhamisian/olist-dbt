@@ -11,7 +11,7 @@ select
     count(case when lower(order_status)
           not in ('canceled', 'unavailable') then order_id end)       as total_product_orders,
     coalesce(round(sum(case when lower(order_status)
-          not in ('canceled', 'unavailable') then price end), 2), 0)  as total_revenue,
+          not in ('canceled', 'unavailable') then price end), 2), 0)  as total_price,
     coalesce(round(avg(case when lower(order_status)
           not in ('canceled', 'unavailable') then price end), 2), 0)  as avg_price
 from order_items
