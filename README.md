@@ -162,4 +162,6 @@ Now, with all the semantic metrics defined and available in DBT, the business ca
 
 I have successfully completed a Proof of Concept involving Google Sheets, which I integrated with DBT Cloud. During the process, I tested both the DBT Cloud IDE and the integration with Google Sheets. In both cases, the defined metrics were accurately displayed, and I was able to apply different segmentations to the data as expected. I did a few cross checks with the source tables and the KPIs are correct.
 
-Below is a screenshot showcasing the example: The first one on DBT Cloud IDE and second the Google Sheets integration, displaying the metrics I configured.
+Below is a screenshot showcasing the example: The first one on DBT Cloud IDE and second the Google Sheets integration, displaying two examples of metrics I configured.
+![sl_dbt_cloud_ide.png](sl_dbt_cloud_ide.png)
+![sl_google_sheet_integration.png](sl_google_sheet_integration.png)
