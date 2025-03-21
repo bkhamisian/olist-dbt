@@ -3,14 +3,32 @@ version: 2
 semantic_models:
   - name: customers_semantic_model
     model: ref('marts_customers')
-    description: "Semantic model for customer data, including order statistics."
+    description: "Semantic model for customer data, including metrics like lifetime value, retention, and delivery performance."
     defaults:
       agg_time_dimension: first_order_date
+
     entities:
       - name: customer
         expr: customer_unique_id
         type: primary
         description: "Unique identifier for each customer."
+
+    dimensions:
+      - name: first_order_date
+        description: "Date of the customer's first order."
+        type: time
+        type_params:
+          time_granularity: day
+      - name: last_order_date
+        description: "Date of the customer's last order."
+        type: time
+        type_params:
+          time_granularity: day
+      - name: has_more_than_ten_orders
+        description: "Flag: Set to True if the total number of orders exceeds 10. Otherwise, it is set to False."
+        type: categorical
+        expr: case when total_orders > 10 then true else false end
+
     measures:
       - name: total_orders
         description: "Total number of orders placed by the customer."
@@ -36,21 +54,6 @@ semantic_models:
         description: "Percentage of customers who stopped purchasing during different cohort months."
         expr: customer_churn_rate
         agg: average
-    dimensions:
-      - name: first_order_date
-        description: "Date of the customer's first order."
-        type: time
-        type_params:
-          time_granularity: day
-      - name: last_order_date
-        description: "Date of the customer's last order."
-        type: time
-        type_params:
-          time_granularity: day
-      - name: has_more_than_ten_orders
-        description: "Flag: Set to True if the total number of orders exceeds 10. Otherwise, it is set to False."
-        type: categorical
-        expr: case when total_orders > 10 then true else false end
 
 metrics:
   - name: total_orders
@@ -97,10 +100,3 @@ metrics:
 #    type_params:
 #      numerator: total_customers - repeat_customer_count
 #      denominator: total_customers
-#  - name: total_customers
-#    description: "Total number of unique customers."
-#    label: "Total Customers"
-#    type: simple
-#    type_params:
-#      measure: customer_unique_id
-#      agg: count_distinct

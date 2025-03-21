@@ -3,9 +3,10 @@ version: 2
 semantic_models:
   - name: orders_semantic_model
     model: ref('marts_orders')
-    description: "Semantic model for order data, including order value and delivery statistics."
+    description: "Semantic model for order data, including order value, delivery statistics, and payment details."
     defaults:
       agg_time_dimension: order_date
+
     entities:
       - name: order_id
         expr: order_id
@@ -15,43 +16,7 @@ semantic_models:
         expr: customer_unique_id
         type: foreign
         description: "Unique identifier for each customer across the whole system."
-    measures:
-      - name: total_order_value
-        description: "Total value of the order."
-        expr: total_order_value
-        agg: sum
-      - name: total_products
-        description: "Total number of products in orders."
-        expr: total_products
-        agg: sum
-      - name: total_freight
-        description: "Total freight cost of the order."
-        expr: total_freight
-        agg: sum
-      - name: delivery_time_days
-        description: "Delivery time in days from purchase to customer delivery."
-        expr: delivery_time_days
-        agg: average
-      - name: total_order_items
-        description: "Total number of items in the order."
-        expr: total_order_items
-        agg: sum
-      - name: average_order_value
-        description: "Average revenue per order."
-        expr: average_order_value
-        agg: average
-      - name: cnt_payment_types
-        description: "Count of distinct payment methods (example: credit_card etc) used for the order."
-        expr: cnt_payment_types
-        agg: sum
-      - name: total_revenue
-        description: "Total payment value for the order."
-        expr: total_revenue
-        agg: sum
-      - name: total_installments
-        description: "Total number of payment installments for the order."
-        expr: total_installments
-        agg: sum
+
     dimensions:
       - name: order_date
         description: "Date when the order was placed."
@@ -72,6 +37,51 @@ semantic_models:
       - name: delivery_status
         description: "Evaluates delivery performance (on time vs late)."
         type: categorical
+      - name: delivery_time_days
+        description: "Delivery time in days from purchase to customer delivery."
+        type: time
+
+    measures:
+      - name: total_order_value
+        description: "Total value of the order."
+        expr: total_order_value
+        agg: sum
+      - name: total_products
+        description: "Total number of products in orders."
+        expr: total_products
+        agg: sum
+      - name: total_freight
+        description: "Total freight cost of the order."
+        expr: total_freight
+        agg: sum
+      - name: total_order_items
+        description: "Total number of items in the order."
+        expr: total_order_items
+        agg: sum
+      - name: average_order_value
+        description: "Average revenue per order."
+        expr: average_order_value
+        agg: average
+      - name: cnt_payment_types
+        description: "Count of distinct payment methods (example: credit_card etc) used for the order."
+        expr: cnt_payment_types
+        agg: sum
+      - name: total_revenue
+        description: "Total payment value for the order."
+        expr: total_revenue
+        agg: sum
+      - name: total_installments
+        description: "Total number of payment installments for the order."
+        expr: total_installments
+        agg: sum
+      - name: late_deliveries
+        description: "Total number of late deliveries."
+        expr: "case when delivery_status = 'Late' then 1 else 0 end"
+        agg: sum
+      - name: on_time_deliveries
+        description: "Total number of on-time deliveries."
+        expr: "case when delivery_status = 'On-Time' then 1 else 0 end"
+        agg: sum
 
 metrics:
   - name: total_order_value
@@ -92,15 +102,9 @@ metrics:
     type: simple
     type_params:
       measure: total_freight
-  - name: delivery_time_days
-    description: "Delivery time in days from purchase to customer delivery."
-    label: "Delivery Time (Days)"
-    type: simple
-    type_params:
-      measure: delivery_time_days
   - name: total_order_items
     description: "Delivery time in days from purchase to customer delivery."
-    label: "Total Number of Items"
+    label: "Total Order Items"
     type: simple
     type_params:
       measure: total_order_items
@@ -128,24 +132,15 @@ metrics:
     type: simple
     type_params:
       measure: total_installments
-#  - name: late_deliveries
-#    description: "Total number of late deliveries."
-#    label: "Late Deliveries"
-#    type: simple
-#    type_params:
-#      measure: total_orders
-#    filter:
-#      field: delivery_status
-#      operator: equals
-#      value: "Late"
-#  - name: on_time_deliveries
-#    description: "Total number of on-time deliveries."
-#    type: simple
-#    type_params:
-#      measure: total_orders
-#    label: "On-Time Deliveries"
-#    model: ref('delivery_metrics')
-#    filter:
-#      field: delivery_status
-#      operator: equals
-#      value: "On-Time"
+  - name: late_deliveries
+    description: "Total number of late deliveries."
+    label: "Late Deliveries"
+    type: simple
+    type_params:
+      measure: late_deliveries
+  - name: on_time_deliveries
+    description: "Total number of on-time deliveries."
+    label: "On Time Deliveries"
+    type: simple
+    type_params:
+      measure: on_time_deliveries

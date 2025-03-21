@@ -6,11 +6,23 @@ semantic_models:
     description: "Semantic model for product data, including sales statistics."
     defaults:
       agg_time_dimension: product_first_sold_date
+
     entities:
       - name: product_id
         expr: product_id
         type: primary
         description: "Unique identifier for each product."
+
+    dimensions:
+      - name: product_first_sold_date
+        description: "Date when the product was first sold."
+        type: time
+        type_params:
+          time_granularity: day
+      - name: product_category_name_english
+        description: "Product category name in English."
+        type: categorical
+
     measures:
       - name: total_product_orders
         description: "Total number of orders containing the product excluding the ones that were unavailable or canceled."
@@ -24,15 +36,6 @@ semantic_models:
         description: "Average selling price of the product excluding freight value and the ones that were unavailable or canceled."
         expr: avg_price
         agg: average
-    dimensions:
-      - name: product_first_sold_date
-        description: "Date when the product was first sold."
-        type: time
-        type_params:
-          time_granularity: day
-      - name: product_category_name_english
-        description: "Product category name in English."
-        type: categorical
 
 metrics:
   - name: total_product_orders
