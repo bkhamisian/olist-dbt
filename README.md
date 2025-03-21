@@ -67,26 +67,39 @@ Several KPIs can be important for understanding business performance for this da
 - **Total Revenue per Month:** Measures the monthly sales and the rate at which revenue is increasing or decreasing over time.
 - **Total Products Sold per Month:** Indicates the volume of products sold monthly. We can understand sales trends and seasonality.
 - **Customer Lifetime Value (CLV):** The projected revenue from a customer over the entire duration of their relationship with Olist.
-- **Customer Retention Rate:** Represents the percentage of repeat customers over a specific period, displaying customer satisfaction.
-- **Customer Churn Rate:** To understand the percentage of customers who stop purchasing over a given timeframe.
-- **Average Order Value (AOV):** Calculates the average revenue per order, offering insights into customer purchasing behavior.
+- **Customer Retention Rate:** Represents the percentage of repeat customers over a specific period.
+- **Customer Churn Rate:** To understand the percentage of customers who stop purchasing over a given period.
+- **Average Order Value (AOV):** Calculates the average revenue per order.
 - **Delivery Status (Late vs. On-Time Deliveries):** Evaluates the efficiency of the delivery process by comparing late deliveries to those on time.
 
-The metrics I’ve chosen for this project are defined across several key dimensions, such as time, order status, payment type, product category, customer, and city. 
+The metrics I’ve chosen for this project are defined across several key dimensions, such as time, order status, payment type, product category, customer, and city. In addition, I have defined metrics at the product and sellers level that fall into a separate category but I believe these are important segmentations.  
 
 **Note that:** I made the decision to focus on specific metrics early on in order to streamline the project and avoid it becoming overly complex. By selecting a few key metrics, I can better understand the types of models I need to build and make sure they are optimized for performance and structured to answer the core business questions.
 Had I chosen additional metrics, I would have needed to build extra models or add more fields to existing ones. However, my goal was to prioritize the development of a well structured semantic layer, rather than trying to answer every possible business question for this specific project.
 
 
 
-## Step 3: Project Setup
+## Step 3: Project Setup / Tech Stack
 
-I started this project from scratch by:
-1. Setting up **Google BigQuery** and giving necessary permission to store the source csv data.
-2. Setting up **DBT Core** within **PyCharm** to streamline my workflow as well as my personal Git account.  
-3. Used **DBT Core** for building the data pipeline and transformations. Created, transformed and tested models and transformed into useful streamlined formats.
-4. **DBT Cloud** for the semantic and metric layers, enabling better visibility and metric definitions across the project.
-
+I started this project from scratch by following these key steps:
+1. **Setting up Google Cloud Project and BigQuery:**
+   * Created a Google Cloud Project and enabled BigQuery as the data warehouse for this project. 
+   * Imported the source CSV files into BigQuery and gave the necessary permissions were set up to allow querying and processing of models. 
+   * Verified that the data was correctly loaded (via some simple queries within bigquery vs the original csv files) and accessible for transformation in DBT.
+2. **Configuring DBT Core within PyCharm:**
+   * Installed and configured DBT Core in PyCharm. This was done for local development and testing. 
+   * Set up a virtual environment and made sure all dependencies (such as dbt databases, packages and so on) were correctly installed.
+   * Configured DBT profiles.yml to connect BigQuery with DBT Core. Integrated GitHub for version control.
+3. **Building the Data Pipeline with DBT Core:**
+   * Designed and developed DBT models to clean, transform, and structure raw data into meaningful business tables. 
+   * Implemented staging, intermediate, and marts models, applying best practices for reusable, and scalable transformations. 
+   * Conducted thorough testing on each model using DBT's built-in schema and data tests (example, uniqueness, not null) and also singular tests vs the BigQuery DB via SQL to ensure data integrity. 
+   * Created documentation for each model, providing detailed descriptions of transformations and relationships between tables.
+4. **Leveraging DBT Cloud for Semantic & Metric Layers:**
+   * Migrated the final Marts models to Semantic Layers and utilized DBT Cloud IDE to utilize its Semantic Layer capability for improve visibility, automate model execution via scheduled runs, and ensuring the business metrics are correctly defined. 
+   * Defined key business metrics (such as revenue, customer retention, and churn rate) to ensure consistency across reporting tools. 
+5. **Integrating DBT Cloud’s Semantic Layer with Google Sheets:**
+   * Connected DBT Cloud’s Semantic Layer to Google Sheets, allowing for real time access to structured business metrics. 
 
 ## Step 4: Data Layers
 
