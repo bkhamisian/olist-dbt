@@ -37,9 +37,6 @@ semantic_models:
       - name: delivery_status
         description: "Evaluates delivery performance (on time vs late)."
         type: categorical
-      - name: delivery_time_days
-        description: "Delivery time in days from purchase to customer delivery."
-        type: time
 
     measures:
       - name: total_order_value
